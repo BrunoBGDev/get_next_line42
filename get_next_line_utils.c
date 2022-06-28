@@ -6,7 +6,7 @@
 /*   By: bbraga <bruno.braga.design@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:58:08 by bbraga            #+#    #+#             */
-/*   Updated: 2022/06/28 12:26:47 by bbraga           ###   ########.fr       */
+/*   Updated: 2022/06/28 15:09:34 by bbraga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,25 @@ char	*ft_strdup(const char *s1)
 		return (0);
 	ft_memcpy(dst, s1, len);
 	return (dst);
+}
+
+char	*ft_strjoin(const char *s1, const char *s2)
+{
+		size_t	s1_len;
+		size_t	s2_len;
+		size_t	rst_len;
+		char	*join;
+
+		if (!s1 || !s2)
+				return (0);
+		s1_len = ft_strlen((char *)s1);
+		s2_len = ft_strlen(s2);
+		rst_len = s1_len + s2_len + 1;
+		join = malloc(sizeof(char) * rst_len);
+		if (!join)
+				return (0);
+		ft_memmove(join, s1, s1_len);
+		ft_memmove(join, s1_len, s2_len);
+		join[rst_len - 1] = '\0';
+		return (join);
 }
