@@ -6,7 +6,7 @@
 /*   By: bbraga <bruno.braga.design@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:58:03 by bbraga            #+#    #+#             */
-/*   Updated: 2022/06/29 12:40:02 by bbraga           ###   ########.fr       */
+/*   Updated: 2022/06/29 16:12:50 by bbraga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,24 @@ static char	*ft_new_stack(char *stack)
 	return (str);
 }
 
-static char	*ft_read_stack(int fd, char stack)
+static char	*ft_read_stack(int fd, char *stack)
 {
 	char	*buff;
-	int		read;
+	int		rd;
 
 	buff = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buff)
 		return (0);
-	read = 1;
-	while (!ft_strchr(stack, '\n') && read != 0)
+	rd = 1;
+	while (!ft_strchr(stack, '\n') && rd != 0)
 	{
-		read = read(fd, buff, BUFFER_SIZE);
-		if (read == -1)
+		rd = read(fd, buff, BUFFER_SIZE);
+		if (rd == -1)
 		{
 			free(buff);
 			return (0);
 		}
-		buff[read] = '\0';
+		buff[rd] = '\0';
 		stack = ft_strjoin(stack, buff);
 	}
 	free(buff);

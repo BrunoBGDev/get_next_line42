@@ -6,7 +6,7 @@
 /*   By: bbraga <bruno.braga.design@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:58:08 by bbraga            #+#    #+#             */
-/*   Updated: 2022/06/29 12:19:24 by bbraga           ###   ########.fr       */
+/*   Updated: 2022/06/29 16:02:31 by bbraga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,49 +40,31 @@ char	*ft_strchr(char *s, int c)
 	return (0);
 }
 
-static void	*ft_memmove(void *dst, const void *src, size_t len)
+char	*ft_strjoin(char *stack, char *buff)
 {
-	unsigned int	count;
-
-	count = 0;
-	if (!dst && !src)
-		return (0);
-	if (((unsigned char *)src) < ((unsigned char *)dst))
-	{
-		while (len)
-		{
-			len--;
-			((unsigned char *)dst)[len] = ((unsigned char *)src)[len];
-		}
-	}
-	else
-	{
-		while (count < len)
-		{
-			((unsigned char *)dst)[count] = ((unsigned char *)src)[count];
-		}
-	}
-	return ((unsigned char *)dst);
-}
-
-char	*ft_strjoin(const char *s1, const char *s2)
-{
-	size_t	s1_len;
-	size_t	s2_len;
-	size_t	rst_len;
+	size_t	count;
+	size_t	i;
 	char	*join;
 
-	if (!s1 || !s2)
+	if (!stack)
+	{
+		stack = (char *)malloc(1 * sizeof(char));
+		stack[0] = '\0';
+	}
+	if (!stack || !buff)
 		return (0);
-	s1_len = ft_strlen((char *)s1);
-	s2_len = ft_strlen(s2);
-	rst_len = s1_len + s2_len + 1;
-	join = malloc(sizeof(char) * rst_len);
+	join = malloc(sizeof(char) * ((ft_strlen(stack) + ft_strlen(buff)) + 1));
 	if (!join)
 		return (0);
-	ft_memmove(join, s1, s1_len);
-	ft_memmove(join, s1_len, s2_len);
-	join[rst_len - 1] = '\0';
+	count = -1;
+	i = 0;
+	if (stack)
+		while (stack[count++] != '\0')
+				join[count] = stack[count];
+	while (buff[i] != '\0')
+		join[count++] = buff[i++];
+	join[ft_strlen(stack) + ft_strlen(buff)] = '\0';
+	free(stack);
 	return (join);
 }
 
