@@ -6,11 +6,39 @@
 /*   By: bbraga <bruno.braga.design@gmail.com>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/23 13:58:08 by bbraga            #+#    #+#             */
-/*   Updated: 2022/06/28 15:20:26 by bbraga           ###   ########.fr       */
+/*   Updated: 2022/06/29 12:19:24 by bbraga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	len;
+
+	len = 0;
+	while (s[len] != '\0')
+		len++;
+	return (len);
+}
+
+char	*ft_strchr(char *s, int c)
+{
+	int	count;
+
+	count = 0;
+	if (!s)
+		return (0);
+	if (c == '\0')
+		return ((char *)&s[ft_strlen(s)]);
+	while (s[count] != '\0')
+	{
+		if (s[count] == (char) c)
+			return ((char *)&s[count]);
+		count++;
+	}
+	return (0);
+}
 
 static void	*ft_memmove(void *dst, const void *src, size_t len)
 {
@@ -37,45 +65,6 @@ static void	*ft_memmove(void *dst, const void *src, size_t len)
 	return ((unsigned char *)dst);
 }
 
-static void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	unsigned int	count;
-
-	if (!dst && !src)
-		return (0);
-	count = 0;
-	while (n > 0)
-	{
-		((unsigned char *)dst)[count] = ((unsigned char *)src)[count];
-		count++;
-		n--;
-	}
-	return (dst);
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	len;
-
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	return (len);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	char	*dst;
-	size_t	len;
-
-	len = ft_strlen(s1) + 1;
-	dst = malloc(len);
-	if (!dst)
-		return (0);
-	ft_memcpy(dst, s1, len);
-	return (dst);
-}
-
 char	*ft_strjoin(const char *s1, const char *s2)
 {
 	size_t	s1_len;
@@ -95,4 +84,32 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	ft_memmove(join, s1_len, s2_len);
 	join[rst_len - 1] = '\0';
 	return (join);
+}
+
+char	*ft_get_line(char *stack)
+{
+	int		count;
+	char	*str;
+
+	count = 0;
+	if (!stack[count])
+		return (0);
+	while (stack[count] && stack[count] != '\n')
+		count++;
+	str = (char *)malloc(sizeof(char) * (count + 2));
+	if (!str)
+		return (0);
+	count = 0;
+	while (stack[count] && stack[count] != '\n')
+	{
+		str[count] = stack[count];
+		count++;
+	}
+	if (stack[count] == '\n')
+	{
+		str[count] = stack[count];
+		count++;
+	}
+	str[count] = '\0';
+	return (str);
 }
